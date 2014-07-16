@@ -1,6 +1,6 @@
 # Relectrum
 
-TODO: Write a gem description
+Ruby Wrapper for Electrum
 
 ## Installation
 
@@ -18,11 +18,18 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+relectrum = Relectrum.new("/path/to/electrum")
+relectrum.get_address_balance("XYZ") # { confirmed: "20.1221", unconfirmed: "8.982" }
+```
+
+See other commands in `spec/relectrum/client_spec.rb`.
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/relectrum/fork )
+This has been developed on Ubuntu with Electrum 1.9.8.
+
+1. Fork it ( https://github.com/ramontayag/relectrum/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
