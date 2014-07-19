@@ -9,6 +9,11 @@ module Relectrum
       it { is_expected.to eq path }
     end
 
+    describe "#get_version", integration: true do
+      subject { described_class.new(CONFIG.fetch(:electrum_path)).get_version }
+      it { is_expected.to be_a String }
+    end
+
     describe "#get_address_balance" do
       let(:path) { "/path/to/electrum" }
       let(:address) { "127wjEjVE442HX89fkDR7Tc1PA92zsSdyA" }

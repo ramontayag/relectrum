@@ -29,6 +29,8 @@ See other commands in `spec/relectrum/client_spec.rb`.
 
 This has been developed on Ubuntu with Electrum 1.9.8.
 
+Copy `spec/config.yml.sample` to `spec/config.yml` and fill in the details.
+
 1. Fork it ( https://github.com/ramontayag/relectrum/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)

@@ -7,6 +7,10 @@ module Relectrum
       @electrum = path
     end
 
+    def get_version
+      Executor.execute(electrum, "getversion")
+    end
+
     def get_address_balance(address)
       response = Executor.execute(electrum, "getaddressbalance #{address}")
       JSON.parse(response).with_indifferent_access
