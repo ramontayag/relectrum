@@ -1,7 +1,7 @@
 require "spec_helper"
 
 module Relectrum
-  describe Client do
+  describe Wrapper do
 
     describe "#electrum" do
       let(:path) { "/path/to/electrum" }
@@ -18,11 +18,11 @@ module Relectrum
       let(:path) { "/path/to/electrum" }
       let(:address) { "127wjEjVE442HX89fkDR7Tc1PA92zsSdyA" }
       let(:command) { "getaddressbalance #{address}" }
-      let(:client) { described_class.new(path) }
+      let(:wrapper) { described_class.new(path) }
       let(:json_response) do
         "{\n    \"confirmed\": \"1.2\", \n    \"unconfirmed\": \"3.0\"\n}\n"
       end
-      subject(:balance) { client.get_address_balance(address) }
+      subject(:balance) { wrapper.get_address_balance(address) }
 
       before do
         allow(Executor).to receive(:execute).with(path, command).
@@ -39,8 +39,8 @@ module Relectrum
       let(:path) { "/path/to/electrum" }
       let(:address) { "127wjEjVE442HX89fkDR7Tc1PA92zsSdyA" }
       let(:command) { "validateaddress #{address}" }
-      let(:client) { described_class.new(path) }
-      subject(:balance) { client.validate_address(address) }
+      let(:wrapper) { described_class.new(path) }
+      subject(:balance) { wrapper.validate_address(address) }
 
       before do
         allow(Executor).to receive(:execute).with(path, command).
@@ -66,7 +66,7 @@ module Relectrum
       let(:path) { "/path/to/electrum" }
       let(:command) { "getconfig auto_cycle" }
       let(:response) { "True" }
-      let(:client) { described_class.new(path) }
+      let(:wrapper) { described_class.new(path) }
 
       before do
         allow(Executor).to receive(:execute).with(path, command).
@@ -74,19 +74,19 @@ module Relectrum
       end
 
       it "returns the auto_cycle config value" do
-        expect(client.auto_cycle).to eq true
+        expect(wrapper.auto_cycle).to eq true
       end
     end
 
     describe "#auto_cycle=" do
       let(:path) { "/path/to/electrum" }
-      let(:client) { described_class.new(path) }
+      let(:wrapper) { described_class.new(path) }
 
       context "setting to true" do
         it "sets the auto_cycle config" do
           expect(Executor).to receive(:execute).
             with(path, "setconfig auto_cycle True")
-          client.auto_cycle = true
+          wrapper.auto_cycle = true
         end
       end
 
@@ -94,14 +94,14 @@ module Relectrum
         it "sets the auto_cycle config" do
           expect(Executor).to receive(:execute).
             with(path, "setconfig auto_cycle False")
-          client.auto_cycle = false
+          wrapper.auto_cycle = false
         end
       end
     end
 
     describe "#get_address_history" do
       let(:path) { "/electrum" }
-      let(:client) { described_class.new(path) }
+      let(:wrapper) { described_class.new(path) }
       let(:json_response) do
         <<-EOS
           [
@@ -116,7 +116,7 @@ module Relectrum
           ]
         EOS
       end
-      let(:history) { client.get_address_history("myaddress") }
+      let(:history) { wrapper.get_address_history("myaddress") }
 
       before do
         allow(Executor).to receive(:execute).
@@ -135,7 +135,7 @@ module Relectrum
 
     describe "#get_raw_transaction" do
       let(:path) { "/electrum" }
-      let(:client) { described_class.new(path) }
+      let(:wrapper) { described_class.new(path) }
       let(:json_response) do
         <<-EOS
           {
@@ -144,7 +144,7 @@ module Relectrum
           }
         EOS
       end
-      let(:tx_details) { client.get_raw_transaction("mytxhash") }
+      let(:tx_details) { wrapper.get_raw_transaction("mytxhash") }
 
       before do
         allow(Executor).to receive(:execute).
@@ -161,7 +161,7 @@ module Relectrum
 
     describe "#decode_raw_transaction" do
       let(:path) { "/electrum" }
-      let(:client) { described_class.new(path) }
+      let(:wrapper) { described_class.new(path) }
       let(:json_response) do
         <<-EOS
         {
@@ -196,7 +196,7 @@ module Relectrum
           }
         EOS
       end
-      let(:tx_details) { client.decode_raw_transaction("txhex") }
+      let(:tx_details) { wrapper.decode_raw_transaction("txhex") }
 
       before do
         allow(Executor).to receive(:execute).

@@ -1,5 +1,5 @@
 module Relectrum
-  class Client
+  class Wrapper
 
     attr_reader :electrum
 

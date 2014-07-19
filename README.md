@@ -23,7 +23,11 @@ relectrum = Relectrum.new("/path/to/electrum")
 relectrum.get_address_balance("XYZ") # { confirmed: "20.1221", unconfirmed: "8.982" }
 ```
 
-See other commands in `spec/relectrum/client_spec.rb`.
+### Relectrum::Wrapper
+
+A thin wrapper around the command line actions you can perform on Electrum. Hardly any adulteration is done to the data returned.
+
+See other commands in `spec/relectrum/wrapper_spec.rb`.
 
 ## Contributing
 
