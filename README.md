@@ -19,7 +19,19 @@ Or install it yourself as:
 ## Usage
 
 ```
-relectrum = Relectrum.new("/path/to/electrum")
+Relectrum.configure do |c|
+  c.electrum_path = "/path/to/electrum"
+  c.sx_path = "/path/to/sx"
+end
+```
+
+```
+# You can also override the paths here:
+relectrum = Relectrum.new(
+  electrum_path: "/path/to/electrum",
+  sx_path: "/path/to/sx",
+)
+
 relectrum.get_address_balance("XYZ") # { confirmed: "20.1221", unconfirmed: "8.982" }
 ```
 
