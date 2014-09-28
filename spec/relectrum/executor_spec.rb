@@ -5,7 +5,7 @@ module Relectrum
 
     it "executes the electrum command" do
       expect(described_class).to receive(:`).
-        with("cd /path/to && ./electrum mycommand somearg")
+        with("cd /path/to && ./electrum mycommand somearg &>/dev/null")
       described_class.execute("/path/to/electrum", "mycommand somearg")
     end
 

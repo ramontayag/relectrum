@@ -1,2 +1,3 @@
 ---
 electrum_path: /path/to/electrum
+sx_path: /path/to/bin/sx

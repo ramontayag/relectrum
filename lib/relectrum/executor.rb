@@ -4,7 +4,7 @@ module Relectrum
     def self.execute(path, command)
       dir = File.dirname(path)
       bin = File.basename(path)
-      `cd #{dir} && ./#{bin} #{command}`
+      `cd #{dir} && ./#{bin} #{command} &>/dev/null`
     end
 
   end

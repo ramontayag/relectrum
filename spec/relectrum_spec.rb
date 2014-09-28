@@ -23,13 +23,13 @@ describe Relectrum do
   describe ".new" do
     let(:electrum_path) { "/path/to/electrum" }
     let(:sx_path) { "/path/to/sx" }
-    let(:wrapper) { double(Relectrum::Wrapper) }
+    let(:client) { double(Relectrum::Client) }
 
     before do
-      allow(Relectrum::Wrapper).to receive(:new).with(
+      allow(Relectrum::Client).to receive(:new).with(
         electrum_path: electrum_path,
         sx_path: sx_path,
-      ).and_return(wrapper)
+      ).and_return(client)
     end
 
     context "paths are overriden" do
@@ -40,7 +40,7 @@ describe Relectrum do
         )
       end
 
-      it { is_expected.to eq wrapper }
+      it { is_expected.to eq client }
     end
 
     context "paths are default" do
@@ -48,15 +48,15 @@ describe Relectrum do
         Relectrum.electrum_path = "electrum"
         Relectrum.sx_path = "sx"
 
-        allow(Relectrum::Wrapper).to receive(:new).with(
+        allow(Relectrum::Client).to receive(:new).with(
           electrum_path: "electrum",
           sx_path: "sx",
-        ).and_return(wrapper)
+        ).and_return(client)
       end
 
       subject { described_class.new }
 
-      it { is_expected.to eq wrapper }
+      it { is_expected.to eq client }
     end
   end
 

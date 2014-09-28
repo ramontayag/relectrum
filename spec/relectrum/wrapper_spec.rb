@@ -3,14 +3,21 @@ require "spec_helper"
 module Relectrum
   describe Wrapper do
 
-    describe "#electrum" do
-      let(:path) { "/path/to/electrum" }
-      subject { described_class.new(path).electrum }
-      it { is_expected.to eq path }
+    describe "initialization" do
+      it "uses the given configuration" do
+        wrapper = described_class.new(
+          electrum_path: "/path/elec",
+        )
+
+        expect(wrapper.electrum_path).to eq "/path/elec"
+      end
     end
 
     describe "#get_version", integration: true do
-      subject { described_class.new(CONFIG.fetch(:electrum_path)).get_version }
+      subject do
+        described_class.new(electrum_path: CONFIG.fetch(:electrum_path)).
+          get_version
+      end
       it { is_expected.to be_a String }
     end
 
@@ -18,7 +25,7 @@ module Relectrum
       let(:path) { "/path/to/electrum" }
       let(:address) { "127wjEjVE442HX89fkDR7Tc1PA92zsSdyA" }
       let(:command) { "getaddressbalance #{address}" }
-      let(:wrapper) { described_class.new(path) }
+      let(:wrapper) { described_class.new(electrum_path: path) }
       let(:json_response) do
         "{\n    \"confirmed\": \"1.2\", \n    \"unconfirmed\": \"3.0\"\n}\n"
       end
@@ -39,7 +46,7 @@ module Relectrum
       let(:path) { "/path/to/electrum" }
       let(:address) { "127wjEjVE442HX89fkDR7Tc1PA92zsSdyA" }
       let(:command) { "validateaddress #{address}" }
-      let(:wrapper) { described_class.new(path) }
+      let(:wrapper) { described_class.new(electrum_path: path) }
       subject(:balance) { wrapper.validate_address(address) }
 
       before do
@@ -66,7 +73,7 @@ module Relectrum
       let(:path) { "/path/to/electrum" }
       let(:command) { "getconfig auto_cycle" }
       let(:response) { "True" }
-      let(:wrapper) { described_class.new(path) }
+      let(:wrapper) { described_class.new(electrum_path: path) }
 
       before do
         allow(Executor).to receive(:execute).with(path, command).
@@ -80,7 +87,7 @@ module Relectrum
 
     describe "#auto_cycle=" do
       let(:path) { "/path/to/electrum" }
-      let(:wrapper) { described_class.new(path) }
+      let(:wrapper) { described_class.new(electrum_path: path) }
 
       context "setting to true" do
         it "sets the auto_cycle config" do
@@ -101,7 +108,7 @@ module Relectrum
 
     describe "#get_address_history" do
       let(:path) { "/electrum" }
-      let(:wrapper) { described_class.new(path) }
+      let(:wrapper) { described_class.new(electrum_path: path) }
       let(:json_response) do
         <<-EOS
           [
@@ -135,7 +142,7 @@ module Relectrum
 
     describe "#get_raw_transaction" do
       let(:path) { "/electrum" }
-      let(:wrapper) { described_class.new(path) }
+      let(:wrapper) { described_class.new(electrum_path: path) }
       let(:json_response) do
         <<-EOS
           {
@@ -161,7 +168,7 @@ module Relectrum
 
     describe "#decode_raw_transaction" do
       let(:path) { "/electrum" }
-      let(:wrapper) { described_class.new(path) }
+      let(:wrapper) { described_class.new(electrum_path: path) }
       let(:json_response) do
         <<-EOS
         {
